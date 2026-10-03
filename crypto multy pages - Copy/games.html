@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#16a085">
+  <meta name="description" content="أقسام السوبر ماركت والمنتجات اليومية - البركة ماركت">
+  <meta name="keywords" content="سوبر ماركت، بقالة، منتجات، خضار، توصيل">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="البركة ماركت">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://looto-hub.netlify.app/games.html">
+  <meta property="og:title" content="البركة ماركت - الأقسام والمنتجات">
+  <meta property="og:description" content="تصفح أقسام السوبر ماركت وأضف منتجاتك للسلة بسهولة">
+  <meta property="og:image" content="https://looto-hub.netlify.app/icons/icon.png">
+  
+  <link rel="canonical" href="https://looto-hub.netlify.app/games.html">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon.png">
+  <link rel="apple-touch-icon" href="./icons/icon.png">
+  
+  <title>البركة ماركت - الأقسام</title>
+  <link rel="stylesheet" href="./crypto-style.css?v=7.0">
+  <link rel="stylesheet" href="./footer-advanced.css?v=7.0">
+  <link rel="stylesheet" href="./loader.css?v=7.0">
+  <link rel="stylesheet" href="./pwa-style.css?v=7.0">
+  <link rel="stylesheet" href="./ux-enhancements.css?v=1.0">
+  <link rel="stylesheet" href="./auth.css?v=1.0">
+  <link rel="stylesheet" href="./supermarket-home.css?v=1.0">
+  <link rel="stylesheet" href="./category-page.css?v=1.0">
+  <link rel="stylesheet" href="./site-theme.css?v=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="market-home category-page">
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress">
+    <div class="reading-progress-bar" id="readingProgress"></div>
+  </div>
+
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb-nav" id="breadcrumbNav">
+    <i class="fas fa-map-marker-alt"></i>
+    <span id="currentSection">الأقسام</span>
+  </div>
+
+  <!-- Store Loader -->
+  <div class="game-loader-overlay" id="gameLoader">
+    <div class="loader-particles" id="loaderParticles"></div>
+    <div class="loader-decorations">
+      <i class="fas fa-shopping-basket deco-icon"></i>
+      <i class="fas fa-leaf deco-icon"></i>
+      <i class="fas fa-truck-fast deco-icon"></i>
+      <i class="fas fa-tags deco-icon"></i>
+    </div>
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="loader-ring"></div>
+        <img src="./icons/icon.png" alt="البركة ماركت" class="loader-logo-icon" />
+      </div>
+      <div class="loader-text">
+        <h1 class="loader-title">البركة ماركت</h1>
+        <p class="loader-subtitle">جاري تجهيز الأقسام...</p>
+      </div>
+      <div class="loader-progress">
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Background -->
+  <div class="video-background">
+    <video autoplay muted loop playsinline id="bgVideo">
+      <source src="./Assestant/ground.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="#" class="nav-logo" aria-label="الشعار">
+          <img src="./icons/icon.png" alt="Logo" />
+        </a>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" data-key="home"><i class="fas fa-home"></i> الرئيسية</a></li>
+          <li><a href="games.html" data-key="online" class="active"><i class="fas fa-layer-group"></i> الأقسام</a></li>
+        </ul>
+        <div class="nav-tools">
+          <button class="login-btn" id="openAuthBtn">
+            <i class="fas fa-user"></i>
+            <span>Login </span>
+          </button>
+          <div class="user-menu" id="userMenu">
+            <button class="user-btn" id="userBtn">
+              <div class="user-avatar" id="userAvatar">U</div>
+              <span id="userName">المستخدم</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="user-dropdown">
+              <a href="#" class="dropdown-item logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل الخروج</span>
+              </a>
+            </div>
+          </div>
+          <button id="cartToggle" class="cart-icon-btn" aria-label="السلة">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </button>
+          <button class="burger-btn" id="burgerBtn" aria-label="قائمة التنقل">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer-premium" id="cartDrawer">
+    <div class="cart-header-premium">
+      <div class="cart-title">
+        <i class="fas fa-shopping-cart"></i>
+        <strong>سلة الطلب</strong>
+      </div>
+      <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-empty" id="cartEmpty">
+      <i class="fas fa-shopping-bag"></i>
+      <p>السلة فارغة</p>
+    </div>
+    <div class="cart-items-premium" id="cartItems"></div>
+    <div class="cart-summary" id="cartSummary" style="display:none;">
+      <div class="summary-row">
+        <span>المجموع:</span>
+        <strong id="cartTotal">0 جنيه</strong>
+      </div>
+      <div class="summary-row loyalty">
+        <span><i class="fas fa-star"></i> نقاط الولاء:</span>
+        <strong id="cartPoints">+0</strong>
+      </div>
+    </div>
+    <div class="cart-actions-premium">
+      <button class="btn btn-primary btn-block" id="cartCheckout">
+        <i class="fab fa-whatsapp"></i> إتمام الطلب
+      </button>
+    </div>
+  </div>
+
+  <!-- Supermarket Categories and Products -->
+  <main class="category-store-page" id="categoryStore">
+    <section class="category-store-hero">
+      <div class="container category-store-hero-grid">
+        <div><a class="category-home-back" href="index.html"><i class="fas fa-arrow-right"></i> الرجوع للرئيسية</a><span class="section-badge"><i class="fas fa-layer-group"></i> البركة ماركت</span><h1>اختار قسمك وابدأ <span>تسوق بسهولة</span></h1><p>كل احتياجات بيتك مرتبة في أقسام واضحة، ومنتجات مختارة بأسعارها ووحداتها قدامك.</p><div class="category-search-box"><i class="fas fa-search"></i><input id="categorySearch" type="search" placeholder="ابحث عن قسم أو منتج..." aria-label="ابحث عن قسم أو منتج"></div></div>
+        <div class="category-hero-product-wall" aria-label="منتجات مختارة من السوق"><div class="category-hero-product product-wall-one"></div><div class="category-hero-product product-wall-two"></div><div class="category-hero-product product-wall-three"></div><div class="category-hero-product product-wall-four"></div><span class="category-hero-price price-badge-one">خصم 20%</span><span class="category-hero-price price-badge-two">طازة اليوم</span><div class="category-hero-delivery"><i class="fas fa-truck-fast"></i><span><strong>توصيل سريع</strong><small>خلال دقائق</small></span></div></div>
+      </div>
+    </section>
+    <section class="category-browser-section">
+      <div class="container">
+        <div class="category-view-heading"><div><span class="section-badge"><i class="fas fa-store"></i> الأقسام الرئيسية</span><h2 id="categoryViewTitle">تسوق حسب القسم</h2></div><button class="category-back-btn" id="categoryBackBtn" type="button"><i class="fas fa-arrow-right"></i> كل الأقسام</button></div>
+        <div class="category-cards-grid" id="categoryCards"></div>
+        <div class="product-view" id="productView" hidden><div class="product-view-heading"><div><span class="category-eyebrow" id="productCategoryEyebrow"></span><h2 id="productViewTitle"></h2></div><span class="product-count" id="productCount"></span></div><div class="product-grid" id="productGrid"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Legacy games markup kept hidden by category-page.css -->
+  <!-- Online Games Recharge Section -->
+  <section id="online-games" class="online-games">
+    <div class="container">
+      <div class="section-header-premium">
+        <h2 class="section-title-premium"><i class="fas fa-gamepad"></i> شحن الألعاب الأونلاين</h2>
+        <p class="section-subtitle-premium">اشحن رصيدك في أشهر الألعاب بسهولة وأمان وسرعة فائقة</p>
+      </div>
+      
+      <!-- Games Premium Grid -->
+      <div class="online-games-grid-premium">
+        <!-- PUBG -->
+        <a href="game-detail.html?game=pubg" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/ppg.png" alt="PUBG Mobile">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>PUBG Mobile</h3>
+            <p class="currency-info">UC - Battle Points</p>
+            <div class="price-range">استعد للنصر ! جهّز نفسك للـ Chicken Dinner 🏆</div>
+          </div>
+        </a>
+
+        <!-- Call of Duty -->
+        <a href="game-detail.html?game=cod" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/call.png" alt="Call of Duty">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Call of Duty Mobile</h3>
+            <p class="currency-info">CP - Points</p>
+            <div class="price-range">عزز ترسانتك! قوّي ترسانتك واسبق الكل 🔥</div>
+          </div>
+        </a>
+
+        <!-- Mobile Legends -->
+        <a href="game-detail.html?game=ml" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/mob.png" alt="Mobile Legends">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Mobile Legends</h3>
+            <p class="currency-info">Diamonds - Tickets</p>
+            <div class="price-range">اصنع أسطورتك في ساحة القتال ✨</div>
+          </div>
+        </a>
+
+        <!-- Roblox -->
+        <a href="game-detail.html?game=roblox" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/rob.png" alt="Roblox">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Roblox</h3>
+            <p class="currency-info">Robux</p>
+            <div class="price-range">مغامرات لا حدود لها! ابنِ عالمك بطريقتك 🎮</div>
+          </div>
+        </a>
+
+        <!-- Free Fire -->
+        <a href="game-detail.html?game=freefire" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/ffr.png" alt="Free Fire">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Free Fire</h3>
+            <p class="currency-info">Diamonds</p>
+            <div class="price-range">كن الأخير واقفاً! كن الأخير واقفًا 💣</div>
+          </div>
+        </a>
+
+        <!-- Pool City -->
+        <a href="game-detail.html?game=poolcity" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/bool.png" alt="Pool City – 8 Ball">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Pool City – 8 Ball</h3>
+            <p class="currency-info">Coins</p>
+            <div class="price-range">استعد للتحدي وسيطر على الطاولة🎱</div>
+          </div>
+        </a>
+
+        <!-- Ludo World -->
+        <a href="game-detail.html?game=ludoworld" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/world.png" alt="Ludo World">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Ludo World</h3>
+            <p class="currency-info">Coins & Cards</p>
+            <div class="price-range">العب وخلي الفوز دايمًا في صفك 🎲🔥</div>
+          </div>
+        </a>
+
+        <!-- Honor of Kings -->
+        <a href="game-detail.html?game=honorofkings" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/honer.png" alt="Honor of Kings">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Honor of Kings</h3>
+            <p class="currency-info">Tokens</p>
+            <div class="price-range">اشحن واستمتع بأقوى المعارك 👑🔥</div>
+          </div>
+        </a>
+
+        <!-- NBA Infinite -->
+        <a href="game-detail.html?game=nbainfinite" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/delta.png" alt="Delta Force">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Delta Force</h3>
+            <p class="currency-info">IC Coins</p>
+            <div class="price-range">سيطر على الملعب واشحن IC 🔥🏀</div>
+          </div>
+        </a>
+
+        <!-- Genshin Impact -->
+        <a href="game-detail.html?game=genshin" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/fc.png" alt="FC Mobile">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>FC Mobile</h3>
+            <p class="currency-info">EA Sports FC™ موبايل</p>
+            <div class="price-range">كوّن فريق الأحلام! واربح البطولات الآن ⚽</div>
+          </div>
+        </a>
+
+        <!-- Yalla Ludo -->
+        <a href="game-detail.html?game=yallaLudo" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/yl.png" alt="Yalla Ludo">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Yalla Ludo</h3>
+            <p class="currency-info">Diamonds & Gold</p>
+            <div class="price-range">خلّي الحظ دايمًا في صفّك 🎯</div>
+          </div>
+        </a>
+
+        <!-- Genshin Impact -->
+        <a href="game-detail.html?game=genshin-impact" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/gensin.png" alt="Genshin Impact">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Genshin Impact</h3>
+            <p class="currency-info">Genesis Crystals</p>
+            <div class="price-range">قوّي فريقك قبل السحبة الجاية ✨</div>
+          </div>
+        </a>
+
+        <!-- Lords Mobile -->
+        <a href="game-detail.html?game=lords-mobile" class="game-card-premium">
+          <div class="game-image-premium">
+            <img src="./Assestant/lord.png" alt="Lords Mobile">
+            <div class="game-overlay-premium">
+              <span class="view-prices">عرض الأسعار</span>
+            </div>
+          </div>
+          <div class="game-info-premium">
+            <h3>Lords Mobile</h3>
+            <p class="currency-info">Diamonds</p>
+            <div class="price-range">ابنِ إمبراطوريتك وسيطر على المعركة 🔥</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges Section -->
+  <section id="trust" class="trust-badges">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>ضمان 100%</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-lock"></i>
+          <span>دفع آمن</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-bolt"></i>
+          <span>تسليم سريع</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-headset"></i>
+          <span>دعم 24/7</span>
+        </div>
+        <div class="trust-badge">
+          <i class="fas fa-star"></i>
+          <span>تقييمات عالية</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Favorites badge updater -->
+  <script src="./favorites.js"></script>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Gaming Loader Script -->
+  <script src="./loader.js?v=7.0"></script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js?v=7.0')
+          .then(registration => {
+            console.log('✅ Service Worker مسجل بنجاح');
+          })
+          .catch(err => console.error('❌ خطأ في تسجيل Service Worker:', err));
+      });
+    }
+  </script>
+  
+  <script src="./crypto-script.js?v=7.0"></script>
+  <script src="./category-page.js?v=1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-catalog.js"></script>
+  <script src="./market-search.js?v=1.0"></script>
+  <script src="./ux-enhancements.js?v=1.0"></script>
+  <script src="./auth.js?v=1.0"></script>
+  <script src="./store-chatbot.js?v=1.0"></script>
+  <!-- Hidden Admin Gateway: 5 clicks in 2s on logo -> admin page -->
+  <script>
+    (function(){
+      const logo = document.querySelector('.nav-logo');
+      if (!logo) return;
+      let clicks = 0, start = 0;
+      const WINDOW_MS = 2000, REQUIRED = 5;
+      const ADMIN_PAGE = './admin-BOXMAN-DASH-2026.html';
+      logo.addEventListener('click', (e) => {
+        e.preventDefault(); // Always prevent default navigation
+        const now = Date.now();
+        if (now - start > WINDOW_MS) { start = now; clicks = 0; }
+        clicks++;
+        if (clicks >= REQUIRED && (now - start) <= WINDOW_MS) {
+          clicks = 0; start = 0;
+          location.href = ADMIN_PAGE;
+        }
+      });
+    })();
+  </script>
+
+  <!-- PWA Installer -->
+  <script src="./pwa-installer.js?v=1.0"></script>
+  
+  <!-- Load shared footer -->
+  <script src="./shared-footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#16a085">
+  <meta name="description" content="البركة ماركت - كل احتياجات بيتك في مكان واحد مع توصيل سريع وعروض يومية">
+  <meta name="keywords" content="سوبر ماركت، بقالة، خضار، عروض، توصيل">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="البركة">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://looto-hub.netlify.app/">
+  <meta property="og:title" content="البركة ماركت - سوبر ماركتك أونلاين">
+  <meta property="og:description" content="كل احتياجات بيتك في مكان واحد مع عروض يومية وتوصيل سريع من البركة ماركت">
+  <meta property="og:image" content="https://looto-hub.netlify.app/icons/icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://looto-hub.netlify.app/">
+  <meta property="twitter:title" content="البركة ماركت - سوبر ماركتك أونلاين">
+  <meta property="twitter:description" content="كل احتياجات بيتك في مكان واحد مع عروض يومية وتوصيل سريع من البركة ماركت">
+  <meta property="twitter:image" content="https://looto-hub.netlify.app/icons/icon.png">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://looto-hub.netlify.app/">
+  
+  <link rel="manifest" href="./manifest.json">
+  <script>
+    window.__barakaDeferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(event) {
+      event.preventDefault();
+      window.__barakaDeferredPrompt = event;
+    });
+  </script>
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon.png">
+  <link rel="apple-touch-icon" href="./icons/icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon.png">
+  <title>البركة ماركت - الرئيسية</title>
+  <link rel="stylesheet" href="./crypto-style.css?v=7.0">
+  <link rel="stylesheet" href="./footer-advanced.css?v=7.0">
+  <link rel="stylesheet" href="./loader.css?v=7.0">
+  <link rel="stylesheet" href="./pwa-style.css?v=7.0">
+  <link rel="stylesheet" href="./ux-enhancements.css?v=1.0">
+  <link rel="stylesheet" href="./auth.css?v=1.0">
+  <link rel="stylesheet" href="./supermarket-home.css?v=1.0">
+  <link rel="stylesheet" href="./home-catalog.css?v=1.0">
+  <link rel="stylesheet" href="./site-theme.css?v=1.0">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts - Arabic -->
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="market-home">
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress">
+    <div class="reading-progress-bar" id="readingProgress"></div>
+  </div>
+
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb-nav" id="breadcrumbNav">
+    <i class="fas fa-map-marker-alt"></i>
+    <span id="currentSection">الرئيسية</span>
+  </div>
+
+  <!-- Store Loader -->
+  <div class="game-loader-overlay" id="gameLoader">
+    <!-- Animated Particles -->
+    <div class="loader-particles" id="loaderParticles"></div>
+    
+    <!-- Decorative Gaming Icons -->
+    <div class="loader-decorations">
+      <i class="fas fa-shopping-basket deco-icon"></i>
+      <i class="fas fa-leaf deco-icon"></i>
+      <i class="fas fa-truck-fast deco-icon"></i>
+      <i class="fas fa-tags deco-icon"></i>
+    </div>
+
+    <!-- Main Loader Content -->
+    <div class="loader-content">
+      <!-- Logo with Ring -->
+      <div class="loader-logo">
+        <div class="loader-ring"></div>
+        <img src="./icons/icon.png" alt="البركة ماركت" class="loader-logo-icon" />
+      </div>
+
+      <!-- Loading Text -->
+      <div class="loader-text">
+        <h1 class="loader-title">البركة ماركت</h1>
+        <p class="loader-subtitle">جاري تجهيز سوقك اليومي...</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="loader-progress">
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+      </div>
+
+      <!-- Loading Messages -->
+      <div class="loader-messages">
+        <p class="loading-message" id="loadingMessage">تحميل الموارد...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Background -->
+  <div class="video-background">
+    <video autoplay muted loop playsinline id="bgVideo">
+      <source src="./Assestant/ground.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="#" class="nav-logo" aria-label="الشعار">
+          <img src="./icons/icon.png" alt="Logo" />
+        </a>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" data-key="home" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
+          <li><a href="games.html" data-key="departments"><i class="fas fa-layer-group"></i> الأقسام</a></li>
+        </ul>
+        <div class="nav-tools">
+          <!-- Login Button -->
+          <button class="login-btn" id="openAuthBtn">
+            <i class="fas fa-user"></i>
+            <span>Login </span>
+          </button>
+          
+          <!-- User Menu (hidden by default) -->
+          <div class="user-menu" id="userMenu">
+            <button class="user-btn" id="userBtn">
+              <div class="user-avatar" id="userAvatar">U</div>
+              <span id="userName">المستخدم</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="user-dropdown">
+              <a href="#" class="dropdown-item logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل الخروج</span>
+              </a>
+            </div>
+          </div>
+          
+          <button id="cartToggle" class="cart-icon-btn" aria-label="السلة">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </button>
+          <button class="burger-btn" id="burgerBtn" aria-label="قائمة التنقل">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Cart Drawer (shared with game-detail) -->
+  <div class="cart-drawer-premium" id="cartDrawer">
+    <div class="cart-header-premium">
+      <div class="cart-title">
+        <i class="fas fa-shopping-cart"></i>
+        <strong>سلة الطلب</strong>
+      </div>
+      <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-empty" id="cartEmpty">
+      <i class="fas fa-shopping-bag"></i>
+      <p>السلة فارغة</p>
+    </div>
+    <div class="cart-items-premium" id="cartItems"></div>
+    <div class="cart-summary" id="cartSummary" style="display:none;">
+      <div class="summary-row">
+        <span>المجموع:</span>
+        <strong id="cartTotal">0 جنيه</strong>
+      </div>
+      <div class="summary-row loyalty">
+        <span><i class="fas fa-star"></i> نقاط الولاء:</span>
+        <strong id="cartPoints">+0</strong>
+      </div>
+    </div>
+    <div class="cart-actions-premium">
+      <button class="btn btn-primary btn-block" id="cartCheckout">
+        <i class="fab fa-whatsapp"></i> إتمام الطلب
+      </button>
+    </div>
+  </div>
+  
+
+  <!-- Supermarket Hero -->
+  <section id="home" class="market-hero">
+    <div class="market-hero-slides" aria-hidden="true">
+      <span class="market-hero-slide slide-produce"></span>
+      <span class="market-hero-slide slide-grocery"></span>
+      <span class="market-hero-slide slide-drinks"></span>
+      <span class="market-hero-slide slide-bakery"></span>
+      <span class="market-hero-slide slide-pantry"></span>
+      <span class="market-hero-slide slide-dairy"></span>
+      <span class="market-hero-slide slide-cleaning"></span>
+      <span class="market-hero-slide slide-market"></span>
+    </div>
+    <div class="market-hero-glow"></div>
+    <div class="container market-hero-grid">
+      <div class="market-hero-copy">
+        <span class="market-kicker"><i class="fas fa-leaf"></i> طازة لحد باب بيتك</span>
+        <h1>كل اللي بيتك محتاجه <span>في مشوار واحد</span></h1>
+        <p>اختار احتياجاتك اليومية من بقالة، خضار وفاكهة، ومستلزمات البيت. أسعار واضحة وتوصيل سريع لحد بابك.</p>
+        <div class="market-search" role="search">
+          <div class="market-search-field">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="marketSearch" type="search" placeholder="بتدور على إيه النهارده؟" aria-label="ابحث في المنتجات">
+          </div>
+          <a class="market-search-btn" href="games.html">تسوق الآن</a>
+        </div>
+        <button class="market-install-btn" id="heroInstallBtn" type="button">
+          <i class="fas fa-download"></i>
+          <span>حمّل التطبيق على جهازك</span>
+        </button>
+        <div class="market-hero-highlights">
+          <span><i class="fas fa-check-circle"></i> منتجات مختارة</span>
+          <span><i class="fas fa-check-circle"></i> دفع عند الاستلام</span>
+          <span><i class="fas fa-check-circle"></i> توصيل في نفس اليوم</span>
+        </div>
+      </div>
+      <div class="market-hero-visual">
+        <div class="market-hero-orbit orbit-one"></div>
+        <div class="market-hero-orbit orbit-two"></div>
+        <div class="market-basket-art">
+          <img src="./icons/icon.png" alt="شعار البركة ماركت">
+          <i class="fas fa-basket-shopping"></i>
+        </div>
+        <div class="market-floating-card floating-card-one"><i class="fas fa-truck-fast"></i><strong>توصيل سريع</strong><small>خلال دقائق</small></div>
+        <div class="market-floating-card floating-card-two"><i class="fas fa-tag"></i><strong>عروض يومية</strong><small>وفر أكتر</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modern Shopping Discovery -->
+  <section class="market-discovery" id="departments">
+    <div class="container">
+      <div class="market-discovery-header">
+        <div><span class="section-badge"><i class="fas fa-layer-group"></i> اكتشف السوق</span><h2>تسوق بالطريقة <span>اللي تناسبك</span></h2></div>
+        <p>أقسام مرتبة، عروض واضحة، وكل ما تحتاجه لبيتك في خطوات قليلة.</p>
+      </div>
+      <div class="market-discovery-layout">
+        <article class="market-feature-deal">
+          <div class="market-feature-deal-image"></div>
+          <div class="market-feature-deal-content"><span class="market-deal-label"><i class="fas fa-bolt"></i> عرض اليوم</span><h3>جهز مطبخك بتوفير أكبر</h3><p>اختيارات طازة وأساسية تساعدك تعمل طلب كامل بسهولة.</p><a href="#offers" class="btn-primary-gradient"><span>شوف العروض</span><i class="fas fa-arrow-left"></i></a></div>
+        </article>
+        <div class="market-department-panel"><div class="market-panel-heading"><h3>الأقسام الرئيسية</h3><a href="games.html">عرض الكل <i class="fas fa-arrow-left"></i></a></div><div class="market-department-grid"><a href="game-detail.html?category=produce" class="market-department-card department-produce"><i class="fas fa-apple-whole"></i><strong>خضار وفاكهة</strong><small>طازة كل يوم</small></a><a href="game-detail.html?category=pantry" class="market-department-card department-pantry"><i class="fas fa-wheat-awn"></i><strong>بقالة أساسية</strong><small>كل احتياجات البيت</small></a><a href="game-detail.html?category=drinks" class="market-department-card department-drinks"><i class="fas fa-bottle-water"></i><strong>مشروبات وسناكس</strong><small>للقعدة الحلوة</small></a><a href="game-detail.html?category=dairy" class="market-department-card department-dairy"><i class="fas fa-cheese"></i><strong>ألبان وأجبان</strong><small>اختيارات يومية</small></a><a href="game-detail.html?category=care" class="market-department-card department-care"><i class="fas fa-spray-can-sparkles"></i><strong>تنظيف وعناية</strong><small>بيت مرتب بسهولة</small></a><a href="game-detail.html?category=kitchen" class="market-department-card department-home"><i class="fas fa-kitchen-set"></i><strong>مستلزمات المطبخ</strong><small>كل شيء في مكانه</small></a></div></div>
+      </div>
+      <div class="market-discovery-strip"><span><i class="fas fa-truck-fast"></i><b>توصيل سريع</b> خلال دقائق</span><span><i class="fas fa-leaf"></i><b>منتجات مختارة</b> بجودة مضمونة</span><span><i class="fas fa-tag"></i><b>عروض متجددة</b> كل أسبوع</span></div>
+    </div>
+  </section>
+
+  <!-- Delivery Feature -->
+  <section id="about" class="delivery-feature">
+    <div class="container delivery-feature-grid">
+      <div class="delivery-copy" data-aos="fade-right">
+        <span class="section-badge"><i class="fas fa-motorcycle"></i> توصيل لكل مكان</span>
+        <h2>طلبك عندك <span>في أسرع وقت</span></h2>
+        <p>من أول ضغطة لحد باب بيتك، بنوصل طلباتك بسرعة واهتمام. بقالة، منزل، مجمدات أو أي احتياج يومي، إحنا قريبين منك.</p>
+        <div class="delivery-actions"><a href="games.html" class="btn-primary-gradient"><span>ابدأ طلبك</span><i class="fas fa-arrow-left"></i></a><span class="delivery-note"><i class="fas fa-location-dot"></i> بنوصلك أينما كنت</span></div>
+        <div class="delivery-benefits"><span><i class="fas fa-bolt"></i><b>وصول سريع</b><small>خلال دقائق</small></span><span><i class="fas fa-map-location-dot"></i><b>تغطية واسعة</b><small>داخل منطقتك</small></span><span><i class="fas fa-hand-holding-dollar"></i><b>دفع مرن</b><small>عند الاستلام</small></span></div>
+      </div>
+      <div class="delivery-visual" data-aos="fade-left" aria-label="مندوب توصيل سريع">
+        <div class="delivery-glow"></div>
+        <img src="./Assestant/dlv.png" alt="شعار البركة ماركت" class="delivery-bike-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Products Showcase Section -->
+  <section id="offers" class="popular-games-section market-products">
+    <div class="container">
+      <div class="section-header-modern">
+        <span class="section-badge"><i class="fas fa-fire"></i> عروض اليوم</span>
+        <h2 class="section-title-modern">اختيارات <span class="gradient-text">مفضلة للبيت</span></h2>
+        <p class="section-subtitle-modern">منتجات أساسية بأسعار لطيفة وتوصيل سريع</p>
+      </div>
+      
+      <div class="popular-games-grid">
+        <!-- Fresh Produce Card -->
+        <div class="game-showcase-card" data-aos="fade-up">
+          <div class="game-card-badge hot-badge"><i class="fas fa-fire"></i> الأكثر طلباً</div>
+          <div class="game-card-image">
+            <div class="market-product-icon icon-produce"><i class="fas fa-apple-whole"></i></div>
+            <div class="game-card-overlay">
+              <a href="games.html" class="game-card-btn">
+                <i class="fas fa-cart-plus"></i> أضف للسلة
+              </a>
+            </div>
+          </div>
+          <div class="game-card-content">
+            <h3 class="game-card-title">خضار وفاكهة طازة</h3>
+            <div class="game-card-stats">
+              <div class="stat-item">
+                <i class="fas fa-leaf"></i>
+                <span>اختيار يومي</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span>طازة كل يوم</span>
+              </div>
+            </div>
+            <div class="game-card-price">
+              <span class="price-label"><i class="fas fa-tag"></i> خصم حتى 20%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pantry Card -->
+        <div class="game-showcase-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="game-card-badge discount-badge"><i class="fas fa-bolt"></i> خصم 15%</div>
+          <div class="game-card-image">
+            <div class="market-product-icon icon-pantry"><i class="fas fa-wheat-awn"></i></div>
+            <div class="game-card-overlay">
+              <a href="games.html" class="game-card-btn">
+                <i class="fas fa-cart-plus"></i> أضف للسلة
+              </a>
+            </div>
+          </div>
+          <div class="game-card-content">
+            <h3 class="game-card-title">بقالة أساسية</h3>
+            <div class="game-card-stats">
+              <div class="stat-item">
+                <i class="fas fa-box"></i>
+                <span>اختيارات متنوعة</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span>وفر في كل طلب</span>
+              </div>
+            </div>
+            <div class="game-card-price">
+              <span class="price-label"><i class="fas fa-tag"></i> عروض البيت الذكي</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drinks Card -->
+        <div class="game-showcase-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="game-card-badge new-badge"><i class="fas fa-gem"></i> عرض خاص</div>
+          <div class="game-card-image">
+            <div class="market-product-icon icon-drinks"><i class="fas fa-bottle-water"></i></div>
+            <div class="game-card-overlay">
+              <a href="games.html" class="game-card-btn">
+                <i class="fas fa-cart-plus"></i> أضف للسلة
+              </a>
+            </div>
+          </div>
+          <div class="game-card-content">
+            <h3 class="game-card-title">مشروبات وسناكس</h3>
+            <div class="game-card-stats">
+              <div class="stat-item">
+                <i class="fas fa-mug-hot"></i>
+                <span>للقعدة الحلوة</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span>جاهز بسرعة</span>
+              </div>
+            </div>
+            <div class="game-card-price">
+              <span class="price-label"><i class="fas fa-gift"></i> باكدجات موفرة</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Home Care Card -->
+        <div class="game-showcase-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="game-card-badge trending-badge"><i class="fas fa-crown"></i> رائج الآن</div>
+          <div class="game-card-image">
+            <div class="market-product-icon icon-care"><i class="fas fa-spray-can-sparkles"></i></div>
+            <div class="game-card-overlay">
+              <a href="games.html" class="game-card-btn">
+                <i class="fas fa-cart-plus"></i> أضف للسلة
+              </a>
+            </div>
+          </div>
+          <div class="game-card-content">
+            <h3 class="game-card-title">تنظيف وعناية بالبيت</h3>
+            <div class="game-card-stats">
+              <div class="stat-item">
+                <i class="fas fa-house"></i>
+                <span>كل أساسيات البيت</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-star"></i>
+                <span>اختيارات موثوقة</span>
+              </div>
+            </div>
+            <div class="game-card-price">
+              <span class="price-label"><i class="fas fa-check"></i> جودة تفرق</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="games-showcase-cta" data-aos="fade-up">
+        <a href="games.html" class="btn-primary-gradient btn-large">
+          <span>شوف كل الأقسام</span>
+          <i class="fas fa-arrow-left"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Delivery Promise -->
+  <section id="delivery" class="market-delivery-section">
+    <div class="container market-delivery-grid">
+      <div><span class="section-badge"><i class="fas fa-truck-fast"></i> توصيل على مزاجك</span><h2>طلبك عندك <span class="gradient-text">في الوقت المناسب</span></h2><p>اختار وقت التوصيل، تابع طلبك، واستلم مشترياتك مرتبة وباهتمام.</p></div>
+      <div class="market-delivery-steps"><div><b>01</b><i class="fas fa-basket-shopping"></i><span>اختار طلبك</span></div><div><b>02</b><i class="fas fa-location-dot"></i><span>حدد عنوانك</span></div><div><b>03</b><i class="fas fa-door-open"></i><span>استلم بسهولة</span></div></div>
+    </div>
+  </section>
+
+  <!-- Favorites badge updater -->
+  <script src="./favorites.js"></script>
+
+  <!-- Footer will be inserted here by the script -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Hidden Admin Gateway: 5 clicks in 2s on logo -> admin page -->
+  <script>
+    (function(){
+      const logo = document.querySelector('.nav-logo');
+      if (!logo) return;
+      let clicks = 0, start = 0;
+      const WINDOW_MS = 2000, REQUIRED = 5;
+      const ADMIN_PAGE = './admin-BOXMAN-DASH-2026.html';
+      logo.addEventListener('click', (e) => {
+        e.preventDefault(); // Always prevent default navigation
+        const now = Date.now();
+        if (now - start > WINDOW_MS) { start = now; clicks = 0; }
+        clicks++;
+        if (clicks >= REQUIRED && (now - start) <= WINDOW_MS) {
+          clicks = 0; start = 0;
+          location.href = ADMIN_PAGE;
+        }
+      });
+    })();
+  </script><!-- Load shared footer -->
+  <script src="./store-chatbot.js?v=1.0"></script>
+  <script src="./shared-footer.js"></script>
+
+  <!-- Store Loader Script -->
+  <script src="./loader.js?v=7.0"></script>
+  
+  <!-- PWA Installation Script -->
+  <script>
+    // PWA Install Prompt
+    let deferredPrompt;
+    const installButton = document.getElementById('heroInstallBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      if (installButton) {
+        installButton.style.display = 'flex';
+      }
+    });
+
+    if (installButton) {
+      installButton.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          
+          if (outcome === 'accepted') {
+            installButton.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      if (installButton) {
+        installButton.style.display = 'none';
+      }
+    });
+  </script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js?v=7.0')
+          .then(registration => {
+            console.log('✅ Service Worker مسجل بنجاح');
+            
+            navigator.serviceWorker.addEventListener('message', (event) => {
+              if (event.data && event.data.type === 'NAVIGATE_TO_FLASH_DEALS') {
+                window.location.href = 'index.html#offers';
+              }
+            });
+          })
+          .catch(err => console.error('❌ خطأ في تسجيل Service Worker:', err));
+      });
+    }
+  </script>
+  
+  <script src="./pwa-installer.js?v=2.0"></script>
+  <script src="./games-slider.js?v=1.0"></script>
+  <script src="./category-page.js?v=1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-catalog.js"></script>
+  <script src="./home-catalog.js?v=1.0"></script>
+  <script src="./market-search.js?v=1.0"></script>
+  <script src="./crypto-script.js?v=7.0"></script>
+  <script src="./ux-enhancements.js?v=1.0"></script>
+  <script src="./auth.js?v=1.0"></script>
+</body>
+</html>
