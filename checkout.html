@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8fdda9">
+  <title>تأكيد الطلب - البركة ماركت</title>
+  <link rel="stylesheet" href="./crypto-style.css?v=7.0">
+  <link rel="stylesheet" href="./site-theme.css?v=1.0">
+  <link rel="stylesheet" href="./checkout.css?v=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="checkout-page">
+  <header class="checkout-header"><a href="index.html" class="checkout-brand"><img src="./icons/icon.png" alt="البركة ماركت"><span>البركة ماركت</span></a><a href="games.html" class="checkout-back"><i class="fas fa-arrow-right"></i> الرجوع للتسوق</a></header>
+  <main class="checkout-main">
+    <section class="checkout-intro"><span class="section-badge"><i class="fas fa-receipt"></i> تأكيد الطلب</span><h1>طلبك جاهز، فاضل <span>بيانات بسيطة</span></h1><p>اكتب بيانات التوصيل، وهنبعت طلبك كامل على واتساب لتأكيده معاك.</p></section>
+    <div class="checkout-layout">
+      <form id="checkoutForm" class="customer-form" autocomplete="off">
+        <h2><i class="fas fa-user-pen"></i> بيانات التوصيل</h2>
+        <label for="customerName">الاسم بالكامل</label><input id="customerName" name="customerName" type="text" autocomplete="off" required placeholder="اكتب اسمك">
+        <label for="customerAddress">العنوان بالتفصيل</label><textarea id="customerAddress" name="customerAddress" rows="4" autocomplete="off" required placeholder="المحافظة، المنطقة، الشارع، رقم البيت"></textarea>
+        <label for="customerPhone">رقم الموبايل</label><input id="customerPhone" name="customerPhone" type="tel" inputmode="tel" autocomplete="off" required placeholder="01xxxxxxxxx">
+        <p id="checkoutError" class="checkout-error" role="alert"></p>
+        <button class="checkout-submit" type="submit"><i class="fab fa-whatsapp"></i> تأكيد وإرسال الطلب</button>
+      </form>
+      <section class="invoice-card" aria-labelledby="invoiceTitle">
+        <div class="invoice-heading"><div><span>البركة ماركت</span><h2 id="invoiceTitle">ملخص الفاتورة</h2></div><i class="fas fa-basket-shopping"></i></div>
+        <div id="invoiceItems" class="invoice-items"></div>
+        <div class="invoice-totals"><div><span>إجمالي المنتجات</span><strong id="invoiceSubtotal">0 جنيه</strong></div><div><span>التوصيل</span><strong>20 جنيه</strong></div><div class="invoice-total"><span>الإجمالي النهائي</span><strong id="invoiceTotal">20 جنيه</strong></div></div>
+      </section>
+    </div>
+  </main>
+  <script src="./checkout.js?v=1.0"></script>
+</body>
+</html>

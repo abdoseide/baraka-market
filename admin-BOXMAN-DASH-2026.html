@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="./crypto-style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-catalog.js"></script>
+<style>
+:root{ --accent:#8b3dff; --bg:#0a0b1a; --card:#121433; --text:#e8e8f3; }
+body{
+  margin:0;
+  font-family:'Rubik', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px; background:rgba(255,255,255,0.02);
+  border-bottom:1px solid rgba(139,61,255,0.25);
+}
+.header h1{font-size:1.2rem;margin:0;display:flex;gap:8px;align-items:center}
+.header .meta{display:flex;gap:12px;align-items:center;font-size:.9rem;opacity:.85}
+.header .btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer}
+.header .home-btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+
+#login{
+  min-height:calc(100vh - 56px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-box{
+  background:var(--card);
+  padding:30px;
+  border-radius:15px;
+  width:320px;
+  box-shadow:0 0 30px rgba(139,61,255,.25);
+  border:1px solid rgba(139,61,255,.35);
+}
+.login-box h2{margin:0 0 10px;font-weight:700}
+.login-box input, .login-box button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
+}
+.login-box input{border:1px solid rgba(255,255,255,0.15);background:#0c1030;color:var(--text)}
+.login-box .private-input{ -webkit-text-security: disc; }
+
+button{
+  background:linear-gradient(135deg, var(--accent), #ff6bd5);
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#dashboard{ display:none; padding:20px; }
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 0 25px rgba(139,61,255,.25);
+  border:1px solid rgba(139,61,255,.35);
+}
+.card h3{margin:0 0 8px}
+.online{ color:#00ff66; font-weight:700; }
+.footer{padding:14px;text-align:center;opacity:.75}
+.catalog-admin{margin-top:20px;display:grid;gap:20px}
+.catalog-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.catalog-form{display:grid;gap:10px}.catalog-form input,.catalog-form select{width:100%;box-sizing:border-box;padding:11px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:#0c1030;color:var(--text)}
+.catalog-form button,.catalog-row-actions button{padding:9px 12px;border-radius:8px;color:#fff}.catalog-form .secondary{background:#313553}
+.catalog-list{display:grid;gap:8px;max-height:360px;overflow:auto}.catalog-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.03)}.catalog-row small{display:block;opacity:.7;margin-top:4px}.catalog-row-actions{display:flex;gap:6px}.catalog-row-actions button{background:#313553;font-size:.78rem}.catalog-row-actions button:last-child{background:#8b314b}.catalog-status{min-height:22px;color:#72f0ba}.catalog-status.error{color:#ff879d}.catalog-search{width:100%;box-sizing:border-box;margin:12px 0 0!important;padding:11px 14px;border:1px solid rgba(139,61,255,.35);border-radius:10px;background:#0c1030;color:var(--text);font:inherit;outline:none;transition:border-color .2s,box-shadow .2s}.catalog-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(139,61,255,.16)}.catalog-search::placeholder{color:rgba(232,232,243,.6)}.catalog-product-unavailable{color:#ff879d;font-weight:700}
+
+/* Responsive: Tablets */
+@media (max-width: 992px) {
+  .header { padding:12px 16px; }
+  .header h1 { font-size:1.05rem; }
+  #dashboard { padding:16px; }
+  .stats { grid-template-columns:repeat(2,minmax(220px,1fr)); }
+}
+
+/* Responsive: Mobiles */
+@media (max-width: 600px) {
+  .header { flex-wrap:wrap; gap:10px; }
+  .header .meta { width:100%; justify-content:space-between; }
+  .header .btn { padding:10px 12px; border-radius:12px; }
+  .login-box { width: min(90vw, 360px); padding:22px; }
+  .login-box input, .login-box button { padding:12px; }
+  .stats { grid-template-columns:1fr; gap:14px; }
+  .card { padding:16px; border-radius:12px; }
+  .card h3 { font-size:1rem; }
+  #dashboard { padding:14px; }
+  canvas#chart { height: 180px !important; width: 100% !important; }
+}
+</style>
+<link rel="stylesheet" href="./site-theme.css?v=1.0">
+</head>
+<body>
+  <div class="header">
+    <h1><img src="./icons/icon.png" alt="" style="width: 50px; height: 50px;"> LIVE DASHBOARD</h1>
+    <div class="meta">
+      <span>Last updated: <strong id="lastUpdated">—</strong></span>
+      <a class="btn home-btn" href="./index.html">الرئيسية</a>
+      <button class="btn" id="refreshBtn">Refresh</button>
+    </div>
+  </div>
+
+<div id="login">
+  <form class="login-box" id="adminLoginForm" autocomplete="off">
+    <h2>🔐 ADMIN</h2>
+    <input type="text" id="adminEmail" placeholder="Admin email (Supabase Auth)" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+    <input type="text" id="password" class="private-input" placeholder="Password" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<div id="dashboard">
+  <div class="stats">
+    <div class="card"><h3>Online</h3><span id="online" class="online">0</span></div>
+    <div class="card"><h3>Total</h3><span id="total">0</span></div>
+    <div class="card"><h3>Today</h3><span id="daily">0</span></div>
+    <div class="card"><h3>Month</h3><span id="monthly">0</span></div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <canvas id="chart" height="120"></canvas>
+  </div>
+  <section class="catalog-admin">
+    <div class="card"><h2>إدارة الكتالوج</h2><p>إضافة وتعديل وحذف الفئات والمنتجات المتصلة بـ Supabase.</p><div id="catalogStatus" class="catalog-status"></div></div>
+    <div class="catalog-admin-grid">
+      <div class="card"><h3>الفئات</h3><form id="categoryForm" class="catalog-form"><input name="name" placeholder="اسم الفئة" required><input name="description" placeholder="وصف مختصر"><input name="image_url" type="url" placeholder="رابط صورة الفئة"><input name="image_file" type="file" accept="image/*"><div><button type="submit">إضافة الفئة</button> <button type="button" class="secondary" id="resetCategoryForm">تفريغ</button></div></form><div id="adminCategoryList" class="catalog-list"></div></div>
+      <div class="card"><h3>المنتجات</h3><form id="productForm" class="catalog-form"><select name="category_id" id="productCategory" required></select><input name="name" placeholder="اسم المنتج" required><input name="unit" placeholder="الوحدة مثل 1 كجم"><input name="price" type="number" min="0" step="0.01" placeholder="السعر" required><select name="is_active" aria-label="حالة المنتج"><option value="true">متاح</option><option value="false">غير متاح</option></select><input name="image_url" type="url" placeholder="رابط صورة المنتج"><input name="image_file" type="file" accept="image/*"><div><button type="submit">إضافة المنتج</button> <button type="button" class="secondary" id="resetProductForm">تفريغ</button></div></form><input id="productSearchAdmin" class="catalog-search" type="search" placeholder="ابحث باسم المنتج..." aria-label="ابحث باسم المنتج"><div id="adminProductList" class="catalog-list"></div></div>
+    </div>
+  </section>
+  <div class="footer">Protected admin page. </div>
+</div>
+
+<script type="module">
+const ADMIN_PASSWORD = "LOOTO-ADMIN-2026";
+
+window.login = async () => {
+  if (document.getElementById("password").value !== ADMIN_PASSWORD) {
+    alert("Wrong password");
+    return;
+  }
+  const adminEmail = document.getElementById("adminEmail").value.trim();
+  if (adminEmail && window.supabaseCatalog) {
+    const { error } = await window.supabaseCatalog.client.auth.signInWithPassword({
+      email: adminEmail,
+      password: document.getElementById("password").value
+    });
+    if (error) {
+      alert(`Supabase Auth failed: ${error.message}`);
+      return;
+    }
+  }
+  document.getElementById("adminLoginForm").reset();
+  document.getElementById("login").style.display="none";
+  document.getElementById("dashboard").style.display="block";
+  init();
+};
+
+document.getElementById("adminLoginForm").addEventListener("submit", event => {
+  event.preventDefault();
+  login();
+});
+
+const client = window.supabaseCatalog?.client;
+
+const chart = new Chart(document.getElementById("chart"), {
+  type:"bar",
+  data:{
+    labels:["Today","Month","Total"],
+    datasets:[{
+      data:[0,0,0],
+      backgroundColor:["#087f5b","#8fdda9","#064c3a"]
+    }]
+  },
+  options:{ plugins:{legend:{display:false}} }
+});
+
+async function init(){
+  if (!client) {
+    alert("تعذر الاتصال بقاعدة بيانات الإحصائيات.");
+    return;
+  }
+
+  async function loadCounters(){
+    const { data: d, error } = await client
+      .from("visitor_stats")
+      .select("total,daily,monthly")
+      .eq("id", 1)
+      .single();
+    if (error) throw error;
+    total.innerText = d.total;
+    daily.innerText = d.daily;
+    monthly.innerText = d.monthly;
+    chart.data.datasets[0].data=[d.daily,d.monthly,d.total];
+    chart.update();
+  }
+
+  async function loadOnline(){
+    const cutoff = new Date(Date.now() - 30000).toISOString();
+    const { count, error } = await client
+      .from("visitor_presence")
+      .select("visitor_id", { count: "exact", head: true })
+      .gt("last_active", cutoff);
+    if (error) throw error;
+    online.innerText = count || 0;
+  }
+
+  const refresh = async () => {
+    try {
+      await Promise.all([loadCounters(), loadOnline()]);
+    } catch (error) {
+      console.error("Failed to load visitor statistics:", error);
+    }
+  };
+
+  refresh();
+  setInterval(refresh, 5000);
+}
+</script>
+<script src="./admin-catalog.js"></script>
+
+<script>
+  // Non-invasive enhancements: last updated + refresh button
+  const lastUpdated = document.getElementById('lastUpdated');
+  const refreshBtn = document.getElementById('refreshBtn');
+  if (refreshBtn) refreshBtn.addEventListener('click', ()=> location.reload());
+  const updateStamp = () => { const d=new Date(); lastUpdated.textContent = d.toLocaleString(); };
+  const obs = new MutationObserver(updateStamp);
+  const totalEl = document.getElementById('total');
+  if (totalEl) obs.observe(totalEl, { childList:true });
+</script>
+</body>
+</html>
